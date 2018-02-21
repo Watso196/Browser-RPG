@@ -1,0 +1,136 @@
+<!doctype html>
+
+<html lang='en'>
+
+   <head>
+
+      <meta charset='UTF-8' />
+
+      <title>My Game TEST</title>
+
+   </head>
+
+   <body>
+
+      <canvas id="canvas"></canvas>
+
+      
+<script>
+
+var canvasWidth = 600; 
+var canvasHeight = 600;
+
+var spriteWidth = 144; //sprite sheet height
+var spriteHeight = 484; //sprite sheet width
+
+var rows = 4; //rows and cols in sprite sheet
+var cols = 4;
+
+var trackDown = 0; //tracking based on row, starting at 0
+var trackUp = 1;
+var trackRight = 2;
+var trackLeft = 3;
+
+var width = spriteWidth/cols; //width of sprite in sprite sheet
+var height = spriteHeight/rows;
+
+var curFrame = 0;
+var frameCount = 4;
+
+var x = 10; //where to render in canvas
+var y = 10;
+
+var srcX = 0; //coordinates to get frame in sprite sheet
+var srcY = 0; //this changes based on keycode!
+
+//tracking movement
+var down = false;
+var up = false;
+var left = false;
+var right = false;
+
+var speed = 10; // f/s speed of animation
+
+var canvas = document.getElementById("canvas");
+
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
+
+var ctx = canvas.getContext("2d"); //dimensional context for canvas
+
+var character = new Image(); //create image object for sprite
+
+character.src = "tomspritesheet.png";
+
+function updateFrame() {
+
+//updating frame index
+curFrame = ++curFrame % frameCount;
+
+//calculating x coordinate on sprite sheet to get frame
+srcX = curFrame * width;
+
+//clearing the canvas so that frames don't stay on screen after they've been played
+ctx.clearRect(x, y, width, height);
+
+}
+
+
+
+document.addEventListener('keydown', moveSprite, false);
+
+
+
+//set of functions to animate sprite on keydown
+//IS THIS THE BEST WAY?? FIND OUT HOW TO DO THIS!
+function moveSprite(e) {
+
+	var keyCode = e.keyCode;
+	
+	
+		if (keyCode === 37) { 
+		srcY = 363;
+		}
+		
+		if (keyCode === 38) {
+		srcY = 121;
+		}
+		
+		if (keyCode === 39) {
+		srcY = 242;
+		}
+		
+		if (keyCode === 40) {
+		srcY = 0;
+		}
+		
+		else { 
+		srcyY = 0;
+		}
+	}
+
+
+//function to render the sprite
+function draw() {
+
+//call updating frame function to update frames
+updateFrame();
+
+// width/2 and height/2 because sprite was too big my bad, didn't know what px size I would be using
+// I could redesign the whole sprite sheet but I really don't want to at this point, it's the end of the semester
+ctx.drawImage(character, srcX, srcY, width, height, x, y, (width), (height));
+
+}
+
+//set the interval (time between images) for the draw function and call it (every X milliseconds)
+setInterval(draw, 200);
+
+moveSprite();
+
+
+
+</script>
+
+   </body>
+
+</html>
